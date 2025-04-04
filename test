@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Тест на общие знания</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background-color: #f9f9f9;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Тест: Общие знания</h1>
+
+  <form id="quizForm">
+    <div class="question">
+      <p>1. Какая планета ближе всего к Солнцу?</p>
+      <label><input type="radio" name="q1" value="a"> Венера</label><br>
+      <label><input type="radio" name="q1" value="b"> Меркурий</label><br>
+      <label><input type="radio" name="q1" value="c"> Марс</label>
+    </div>
+
+    <div class="question">
+      <p>2. Кто написал «Войну и мир»?</p>
+      <label><input type="radio" name="q2" value="a"> Пушкин</label><br>
+      <label><input type="radio" name="q2" value="b"> Чехов</label><br>
+      <label><input type="radio" name="q2" value="c"> Толстой</label>
+    </div>
+
+    <div class="question">
+      <p>3. Сколько континентов на Земле?</p>
+      <label><input type="radio" name="q3" value="a"> 5</label><br>
+      <label><input type="radio" name="q3" value="b"> 6</label><br>
+      <label><input type="radio" name="q3" value="c"> 7</label>
+    </div>
+
+    <button type="button" onclick="checkAnswers()">Проверить ответы</button>
+  </form>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function checkAnswers() {
+      const answers = {
+        q1: "b", // Меркурий
+        q2: "c", // Толстой
+        q3: "c"  // 7
+      };
+
+      let score = 0;
+      let total = Object.keys(answers).length;
+
+      for (let key in answers) {
+        let selected = document.querySelector(`input[name="${key}"]:checked`);
+        if (selected && selected.value === answers[key]) {
+          score++;
+        }
+      }
+
+      document.getElementById("result").textContent = `Вы правильно ответили на ${score} из ${total} вопросов.`;
+    }
+  </script>
+
+</body>
+</html>

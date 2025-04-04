@@ -2,41 +2,73 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Тестирование</title>
-  <script defer src="script.js"></script>
+  <title>Quiz by Sasha Minsker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Фоновые стили -->
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    .question-block { margin-bottom: 20px; }
-    .hidden { display: none; }
-    #timer { font-weight: bold; margin-top: 10px; }
+    body {
+      background-image: url('SASHA%20MINSKER%20YT%2006%20(var%2043-3).png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 1rem;
+    }
   </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col items-center justify-center text-white">
 
-  <h1>Пройти тест</h1>
+  <div class="max-w-xl w-full p-8 glass shadow-2xl border border-white/20">
+    <h1 class="text-3xl font-bold text-center mb-6">Пройти тест</h1>
 
-  <div id="start-form">
-    <label>Имя: <input type="text" id="firstName" required></label><br>
-    <label>Фамилия: <input type="text" id="lastName" required></label><br>
-    <label>Email: <input type="email" id="email" required></label><br>
+    <div id="start-form" class="space-y-4">
+      <input type="text" id="firstName" placeholder="Имя"
+        class="w-full px-4 py-2 rounded bg-white/20 backdrop-blur text-white placeholder-white/70">
+      <input type="text" id="lastName" placeholder="Фамилия"
+        class="w-full px-4 py-2 rounded bg-white/20 backdrop-blur text-white placeholder-white/70">
+      <input type="email" id="email" placeholder="Email"
+        class="w-full px-4 py-2 rounded bg-white/20 backdrop-blur text-white placeholder-white/70">
 
-    <div id="testKeyBlock">
-      <label>Название теста или ключ: <input type="text" id="testKey" required></label><br>
+      <div id="testKeyBlock">
+        <input type="text" id="testKey" placeholder="Код или название теста"
+          class="w-full px-4 py-2 rounded bg-white/20 backdrop-blur text-white placeholder-white/70">
+      </div>
+
+      <div id="testListBlock" class="hidden">
+        <label for="testList" class="block text-white/80 mb-1">Выберите тест:</label>
+        <select id="testList"
+          class="w-full px-4 py-2 rounded bg-white/20 backdrop-blur text-white">
+        </select>
+      </div>
+
+      <button id="startBtn"
+        class="w-full py-2 bg-blue-500 hover:bg-blue-600 rounded text-white font-semibold">Начать тест</button>
     </div>
 
-    <div id="testListBlock" class="hidden">
-      <label>Выберите тест:
-        <select id="testList"></select>
-      </label><br>
+    <!-- Таймер -->
+    <div id="timer" class="text-center text-lg font-semibold mt-6 hidden">Время: 0:00</div>
+
+    <!-- Прогресс-бар -->
+    <div class="w-full bg-white/20 h-6 rounded mt-4 hidden" id="progressWrapper">
+      <div id="progressBar"
+        class="bg-blue-600 h-6 text-white text-sm text-center leading-6 rounded w-0 hidden">0%</div>
     </div>
 
-    <br>
-    <button id="startBtn">Начать тест</button>
+    <!-- Контейнер для вопросов -->
+    <div id="quiz-container" class="mt-6 hidden"></div>
+
+    <!-- Результат -->
+    <div id="result-container" class="mt-6 hidden"></div>
   </div>
 
-  <div id="timer" class="hidden">Время: 0:00</div>
-  <div id="quiz-container" class="hidden"></div>
-  <div id="result-container" class="hidden"></div>
-
+  <script src="script.js" defer></script>
 </body>
 </html>

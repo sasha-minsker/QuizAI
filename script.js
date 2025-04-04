@@ -37,26 +37,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-async function showTestList() {
-  testListSelect.innerHTML = "";
-  try {
-    const res = await fetch("quizzes/quiz_index.json"); // 👈 путь к index-файлу
-    const data = await res.json();
-    const files = data.quizzes;
+  async function showTestList() {
+    testListSelect.innerHTML = "";
+    try {
+      const res = await fetch("quizzes/quiz_index.json");
+      const data = await res.json();
+      const files = data.quizzes;
 
-    for (const file of files) {
-      const res = await fetch(`quizzes/${file}`);
-      const quiz = await res.json();
-      const testName = quiz[0]; // первая строка — название
-      const option = document.createElement("option");
-      option.value = file;
-      option.textContent = testName;
-      testListSelect.appendChild(option);
+      for (const file of files) {
+        const res = await fetch(`quizzes/${file}`);
+        const quiz = await res.json();
+        const testName = quiz[0];
+        const option = document.createElement("option");
+        option.value = file;
+        option.textContent = testName;
+        testListSelect.appendChild(option);
+      }
+    } catch (e) {
+      console.error("Ошибка загрузки списка тестов:", e);
     }
-  } catch (e) {
-    console.error("Ошибка загрузки списка тестов:", e);
   }
-}
 
   async function loadQuiz(testName) {
     try {

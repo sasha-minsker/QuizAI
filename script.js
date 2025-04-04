@@ -38,26 +38,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   async function showTestList() {
-    testListSelect.innerHTML = "";
-    try {
-      const res = await fetch('quizzes/');
-      const html = await res.text();
-      const matches = Array.from(html.matchAll(/href=\"(.*?\.json)\"/g));
-      const files = matches.map(m => m[1]).filter(name => name.endsWith('.json'));
+  testListSelect.innerHTML = "";
+  try {
+    const res = await fetch("quizzes/quiz_index.json");
+    const data = await res.json();
+    const files = data.quizzes;
 
-      for (const file of files) {
-        const res = await fetch(`quizzes/${file}`);
-        const data = await res.json();
-        const testName = data[0];
-        const option = document.createElement('option');
-        option.value = file;
-        option.textContent = testName;
-        testListSelect.appendChild(option);
-      }
-    } catch (e) {
-      console.error('Ошибка загрузки списка тестов:', e);
+    for (const file of files) {
+      const res = await fetch(`quizzes/${file}`);
+      const quiz = await res.json();
+      const testName = quiz[0];
+      const option = document.createElement("option");
+      option.value = file;
+      option.textContent = testName;
+      testListSelect.appendChild(option);
     }
+  } catch (e) {
+    console.error("Ошибка загрузки индекса тестов:", e);
   }
+}
 
   async function loadQuiz(testName) {
     try {

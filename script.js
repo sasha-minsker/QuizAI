@@ -94,7 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const q = questions[currentQuestionIndex];
     const div = document.createElement('div');
     div.className = 'mb-4';
-    div.innerHTML = `<h3 class="question-text">${q.question}</h3>`;
+
+    const questionHeader = document.createElement('h3');
+    questionHeader.className = 'question-text';
+    questionHeader.textContent = q.question;
+    div.appendChild(questionHeader);
 
     q.options.forEach((opt, i) => {
       const btn = document.createElement('button');

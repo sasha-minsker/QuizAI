@@ -13,10 +13,25 @@
 
   <style>
     body {
-      background-image: url('bg.png');
+      background-image: url('SASHA%20MINSKER%20YT%2006%20(var%2043-3).png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+    }
+
+    input, select, button {
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+      transform: scale(1.02);
+    }
+
+    button:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
     }
   </style>
 </head>
@@ -25,7 +40,7 @@
   <div class="max-w-xl w-full p-6 glass">
     <h1 class="text-3xl font-bold text-center mb-6 text-white">Пройти тест</h1>
 
-    <div id="start-form" class="space-y-2">
+    <div id="start-form" class="flex flex-col space-y-2 items-stretch">
       <input type="text" id="firstName" placeholder="Имя">
       <input type="text" id="lastName" placeholder="Фамилия">
       <input type="email" id="email" placeholder="Email">

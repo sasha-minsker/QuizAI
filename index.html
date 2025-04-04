@@ -13,32 +13,17 @@
 
   <style>
     body {
-      background-image: url('bg.png');
+      background-image: url('SASHA%20MINSKER%20YT%2006%20(var%2043-3).png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
     }
-
-    input, select, button {
-      transition: all 0.3s ease;
-    }
-
-    input:focus, select:focus {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
-      transform: scale(1.02);
-    }
-
-    button:hover {
-      transform: translateY(-2px) scale(1.01);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
-    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center px-4">
+<body class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-8">
 
-  <div class="max-w-xl w-full p-6 glass">
-    <h1 class="text-3xl font-bold text-center mb-6 text-white">Пройти тест</h1>
+  <div class="w-full max-w-2xl glass p-4 sm:p-6">
+    <h1 class="text-2xl sm:text-3xl font-bold text-center mb-6 text-white">Пройти тест</h1>
 
     <div id="start-form" class="flex flex-col space-y-2 items-stretch">
       <input type="text" id="firstName" placeholder="Имя">
@@ -54,7 +39,7 @@
         <select id="testList"></select>
       </div>
 
-      <button id="startBtn" class="w-full py-2 bg-cyan-500 hover:bg-cyan-600 rounded text-white font-semibold">Начать тест</button>
+      <button id="startBtn" class="w-full py-2 bg-cyan-500 hover:bg-cyan-600 rounded text-white font-semibold text-base sm:text-lg">Начать тест</button>
     </div>
 
     <!-- Таймер -->
@@ -66,7 +51,7 @@
     </div>
 
     <!-- Контейнер для вопросов -->
-    <div id="quiz-container" class="mt-6 hidden"></div>
+    <div id="quiz-container" class="mt-6 hidden min-h-[200px]"></div>
 
     <!-- Результат -->
     <div id="result-container" class="mt-6 hidden"></div>

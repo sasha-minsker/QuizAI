@@ -3,35 +3,36 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentQuestionIndex = 0;
   let correctAnswers = 0;
   let startTime, endTime;
+  let timerInterval;
 
   const startBtn = document.getElementById('startBtn');
   const testKeyInput = document.getElementById('testKey');
   const testListSelect = document.getElementById('testList');
+  const testKeyBlock = document.getElementById('testKeyBlock');
+  const testListBlock = document.getElementById('testListBlock');
+  const timerDisplay = document.getElementById('timer');
 
   startBtn.addEventListener('click', async () => {
-    console.log("Кнопка нажата");
     const key = testKeyInput.value.trim();
 
-    if (key === '777') {
+    if (!testListBlock.classList.contains('hidden')) {
+      const selectedFile = testListSelect.value;
+      if (selectedFile) {
+        loadQuiz(selectedFile.replace('.json', ''));
+      }
+    } else if (key === '777') {
+      testKeyBlock.classList.add('hidden');
+      testListBlock.classList.remove('hidden');
       await showTestList();
     } else {
       loadQuiz(key);
     }
   });
 
-  testListSelect.addEventListener('change', function () {
-    const selectedFile = this.value;
-    if (selectedFile) {
-      loadQuiz(selectedFile.replace('.json', ''));
-    }
-  });
-
   async function showTestList() {
-    const select = testListSelect;
-    select.classList.remove('hidden');
-    select.innerHTML = "";
+    testListSelect.innerHTML = "";
+    const files = ['quiz1.json', 'quiz2.json']; // можно позже автоматизировать
 
-    const files = ['quiz1.json', 'quiz2.json']; // <-- список файлов (или можно автогенерацию позже)
     for (const file of files) {
       try {
         const res = await fetch(`quizzes/${file}`);
@@ -40,9 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const option = document.createElement('option');
         option.value = file;
         option.textContent = testName;
-        select.appendChild(option);
+        testListSelect.appendChild(option);
       } catch (e) {
-        console.error(`Ошибка загрузки теста ${file}:`, e);
+        console.error(`Ошибка загрузки ${file}:`, e);
       }
     }
   }
@@ -51,15 +52,19 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const res = await fetch(`quizzes/${testName}.json`);
       const data = await res.json();
-      questions = data.slice(1); // первый элемент — название
+      questions = data.slice(1); // первый элемент — название теста
       startTime = new Date();
+      currentQuestionIndex = 0;
+      correctAnswers = 0;
 
       document.getElementById('start-form').classList.add('hidden');
       document.getElementById('quiz-container').classList.remove('hidden');
+      timerDisplay.classList.remove('hidden');
 
+      startTimer();
       showQuestion();
     } catch (e) {
-      alert('Ошибка загрузки теста. Убедитесь, что такой файл существует в папке "quizzes/".');
+      alert('Ошибка загрузки теста. Убедитесь, что файл существует.');
       console.error(e);
     }
   }
@@ -93,13 +98,28 @@ document.addEventListener('DOMContentLoaded', () => {
     container.appendChild(div);
   }
 
+  function startTimer() {
+    const start = Date.now();
+    timerInterval = setInterval(() => {
+      const elapsed = Date.now() - start;
+      const minutes = Math.floor(elapsed / 60000);
+      const seconds = Math.floor((elapsed % 60000) / 1000);
+      timerDisplay.textContent = `Время: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }, 1000);
+  }
+
+  function stopTimer() {
+    clearInterval(timerInterval);
+  }
+
   function endQuiz() {
+    stopTimer();
     endTime = new Date();
     const durationMs = endTime - startTime;
     const duration = msToHMS(durationMs);
 
-    const container = document.getElementById('quiz-container');
-    container.classList.add('hidden');
+    document.getElementById('quiz-container').classList.add('hidden');
+    timerDisplay.classList.add('hidden');
 
     const resultDiv = document.getElementById('result-container');
     resultDiv.classList.remove('hidden');
@@ -123,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
     const email = document.getElementById('email').value;
-    const testName = testKeyInput.value;
+    const testName = testListBlock.classList.contains('hidden') ? testKeyInput.value : testListSelect.options[testListSelect.selectedIndex].text;
     const duration = msToHMS(endTime - startTime);
     const timestamp = new Date().toISOString();
 

@@ -1,0 +1,110 @@
+/* ======== Sasha Minsker Quiz Theme ======== */
+
+:root {
+  --text-color: #111827;
+  --background-glass: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(16px);
+  --button-bg: #ffffff;
+  --button-hover: #f3f4f6;
+  --progress-color: #22d3ee;
+  --border-color: rgba(255, 255, 255, 0.2);
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--text-color);
+}
+
+.glass {
+  background: var(--background-glass);
+  backdrop-filter: var(--glass-blur);
+  border-radius: 1rem;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+.btn-answer {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+  background: white;
+  color: var(--text-color);
+  border-radius: 0.5rem;
+  transition: background 0.2s ease-in-out;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.btn-answer:hover {
+  background: var(--button-hover);
+}
+
+.question-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white;
+  text-align: center;
+}
+
+#progressBar {
+  background-color: var(--progress-color);
+  height: 1.5rem;
+  color: white;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  text-align: center;
+  border-radius: 0.5rem;
+  transition: width 0.3s ease-in-out;
+}
+
+#progressWrapper {
+  background-color: var(--button-hover);
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  overflow: hidden;
+}
+
+input, select, button {
+  font-family: inherit;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+input, select {
+  background: white;
+  color: black;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  border: none;
+  margin-bottom: 1rem;
+}
+
+input::placeholder {
+  color: #6b7280;
+}
+
+input:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+  transform: scale(1.02);
+}
+
+button:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+/* Fade-in animation */
+#quiz-container > div {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

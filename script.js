@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const timerDisplay = document.getElementById('timer');
   const progressBar = document.getElementById('progressBar');
 
-  // Обработка Enter в поле кода
   testKeyInput.addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
       const code = testKeyInput.value.trim();
@@ -40,9 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function showTestList() {
     testListSelect.innerHTML = "";
-    const files = ['quiz1.json', 'quiz2.json']; // список файлов (позже автоматизируем)
-    for (const file of files) {
-      try {
+    try {
+      const res = await fetch('quizzes/');
+      const html = await res.text();
+      const matches = Array.from(html.matchAll(/href=\"(.*?\.json)\"/g));
+      const files = matches.map(m => m[1]).filter(name => name.endsWith('.json'));
+
+      for (const file of files) {
         const res = await fetch(`quizzes/${file}`);
         const data = await res.json();
         const testName = data[0];
@@ -50,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
         option.value = file;
         option.textContent = testName;
         testListSelect.appendChild(option);
-      } catch (e) {
-        console.error(`Ошибка загрузки ${file}:`, e);
       }
+    } catch (e) {
+      console.error('Ошибка загрузки списка тестов:', e);
     }
   }
 
@@ -92,12 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const q = questions[currentQuestionIndex];
     const div = document.createElement('div');
     div.className = 'mb-4';
-    div.innerHTML = `<h3 class="text-xl font-semibold mb-2">${q.question}</h3>`;
+    div.innerHTML = `<h3 class="question-text">${q.question}</h3>`;
 
     q.options.forEach((opt, i) => {
       const btn = document.createElement('button');
       btn.textContent = opt;
-      btn.className = 'block w-full text-left px-4 py-2 mb-2 bg-blue-100 hover:bg-blue-200 rounded';
+      btn.className = 'btn-answer';
       btn.onclick = () => {
         if (i === q.answer) correctAnswers++;
         currentQuestionIndex++;
@@ -142,9 +145,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultDiv = document.getElementById('result-container');
     resultDiv.classList.remove('hidden');
     resultDiv.innerHTML = `
-      <h2 class="text-2xl font-bold mb-2">Тест завершён!</h2>
-      <p class="mb-2">Правильных ответов: ${correctAnswers} из ${questions.length}</p>
-      <p class="mb-4">Время прохождения: ${duration}</p>
+      <h2 class="text-2xl font-bold mb-2 text-white">Тест завершён!</h2>
+      <p class="mb-2 text-white">Правильных ответов: ${correctAnswers} из ${questions.length}</p>
+      <p class="mb-4 text-white">Время прохождения: ${duration}</p>
       <button onclick="downloadResult()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Скачать результат</button>
     `;
   }

@@ -8,7 +8,9 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Фоновые стили -->
+  <!-- Тема и стили -->
+  <link rel="stylesheet" href="theme.css">
+
   <style>
     body {
       background-image: url('bg.png');
@@ -16,50 +18,36 @@
       background-position: center;
       background-repeat: no-repeat;
     }
-
-    .glass {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
-      border-radius: 1rem;
-    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center text-white">
+<body class="min-h-screen flex flex-col items-center justify-center px-4">
 
-  <div class="max-w-xl w-full p-8 glass shadow-2xl border border-white/20">
-    <h1 class="text-3xl font-bold text-center mb-6">Пройти тест</h1>
+  <div class="max-w-xl w-full p-6 glass">
+    <h1 class="text-3xl font-bold text-center mb-6 text-white">Пройти тест</h1>
 
-    <div id="start-form" class="space-y-4">
-      <input type="text" id="firstName" placeholder="Имя"
-        class="w-full px-4 py-2 rounded bg-white/20 backdrop-blur text-white placeholder-white/70">
-      <input type="text" id="lastName" placeholder="Фамилия"
-        class="w-full px-4 py-2 rounded bg-white/20 backdrop-blur text-white placeholder-white/70">
-      <input type="email" id="email" placeholder="Email"
-        class="w-full px-4 py-2 rounded bg-white/20 backdrop-blur text-white placeholder-white/70">
+    <div id="start-form" class="space-y-2">
+      <input type="text" id="firstName" placeholder="Имя">
+      <input type="text" id="lastName" placeholder="Фамилия">
+      <input type="email" id="email" placeholder="Email">
 
       <div id="testKeyBlock">
-        <input type="text" id="testKey" placeholder="Код или название теста"
-          class="w-full px-4 py-2 rounded bg-white/20 backdrop-blur text-white placeholder-white/70">
+        <input type="text" id="testKey" placeholder="Код или название теста">
       </div>
 
       <div id="testListBlock" class="hidden">
         <label for="testList" class="block text-white/80 mb-1">Выберите тест:</label>
-        <select id="testList"
-          class="w-full px-4 py-2 rounded bg-white/20 backdrop-blur text-white">
-        </select>
+        <select id="testList"></select>
       </div>
 
-      <button id="startBtn"
-        class="w-full py-2 bg-blue-500 hover:bg-blue-600 rounded text-white font-semibold">Начать тест</button>
+      <button id="startBtn" class="w-full py-2 bg-cyan-500 hover:bg-cyan-600 rounded text-white font-semibold">Начать тест</button>
     </div>
 
     <!-- Таймер -->
-    <div id="timer" class="text-center text-lg font-semibold mt-6 hidden">Время: 0:00</div>
+    <div id="timer" class="text-center text-white text-lg font-semibold mt-6 hidden">Время: 0:00</div>
 
     <!-- Прогресс-бар -->
-    <div class="w-full bg-white/20 h-6 rounded mt-4 hidden" id="progressWrapper">
-      <div id="progressBar"
-        class="bg-blue-600 h-6 text-white text-sm text-center leading-6 rounded w-0 hidden">0%</div>
+    <div id="progressWrapper" class="hidden">
+      <div id="progressBar" class="w-0">0%</div>
     </div>
 
     <!-- Контейнер для вопросов -->

@@ -1,4 +1,4 @@
-/* ======== Sasha Minsker Quiz Theme ======== */
+/* ======== Sasha Minsker Quiz Theme (Mobile-Friendly) ======== */
 
 :root {
   --text-color: #111827;
@@ -35,7 +35,7 @@ body {
   border-radius: 0.5rem;
   transition: background 0.2s ease-in-out;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
 }
 
@@ -44,7 +44,7 @@ body {
 }
 
 .question-text {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 1rem;
   color: white;
@@ -73,6 +73,7 @@ input, select, button {
   font-family: inherit;
   width: 100%;
   transition: all 0.3s ease;
+  font-size: 1rem;
 }
 
 input, select {
@@ -99,7 +100,6 @@ button:hover {
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
-/* Fade-in animation */
 #quiz-container > div {
   animation: fadeIn 0.3s ease;
 }
@@ -107,4 +107,17 @@ button:hover {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .question-text {
+    font-size: 1.125rem;
+  }
+  .btn-answer {
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+  }
+  input, select, button {
+    font-size: 1rem;
+  }
 }

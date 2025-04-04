@@ -11,28 +11,36 @@ document.addEventListener('DOMContentLoaded', () => {
   const testKeyBlock = document.getElementById('testKeyBlock');
   const testListBlock = document.getElementById('testListBlock');
   const timerDisplay = document.getElementById('timer');
+  const progressBar = document.getElementById('progressBar');
+
+  // Обработка Enter в поле кода
+  testKeyInput.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter') {
+      const code = testKeyInput.value.trim();
+      if (code === '777') {
+        testListBlock.classList.remove('hidden');
+        await showTestList();
+      } else {
+        alert('Неверный код. Попробуйте ещё раз.');
+      }
+    }
+  });
 
   startBtn.addEventListener('click', async () => {
-    const key = testKeyInput.value.trim();
-
     if (!testListBlock.classList.contains('hidden')) {
       const selectedFile = testListSelect.value;
       if (selectedFile) {
         loadQuiz(selectedFile.replace('.json', ''));
       }
-    } else if (key === '777') {
-      testKeyBlock.classList.add('hidden');
-      testListBlock.classList.remove('hidden');
-      await showTestList();
     } else {
+      const key = testKeyInput.value.trim();
       loadQuiz(key);
     }
   });
 
   async function showTestList() {
     testListSelect.innerHTML = "";
-    const files = ['quiz1.json', 'quiz2.json']; // можно позже автоматизировать
-
+    const files = ['quiz1.json', 'quiz2.json']; // список файлов (позже автоматизируем)
     for (const file of files) {
       try {
         const res = await fetch(`quizzes/${file}`);
@@ -52,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const res = await fetch(`quizzes/${testName}.json`);
       const data = await res.json();
-      questions = data.slice(1); // первый элемент — название теста
+      questions = data.slice(1);
       startTime = new Date();
       currentQuestionIndex = 0;
       correctAnswers = 0;
@@ -60,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('start-form').classList.add('hidden');
       document.getElementById('quiz-container').classList.remove('hidden');
       timerDisplay.classList.remove('hidden');
+      progressBar.classList.remove('hidden');
 
       startTimer();
       showQuestion();
@@ -78,24 +87,32 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    updateProgress();
+
     const q = questions[currentQuestionIndex];
     const div = document.createElement('div');
-    div.className = 'question-block';
-    div.innerHTML = `<h3>${q.question}</h3>`;
+    div.className = 'mb-4';
+    div.innerHTML = `<h3 class="text-xl font-semibold mb-2">${q.question}</h3>`;
 
     q.options.forEach((opt, i) => {
       const btn = document.createElement('button');
       btn.textContent = opt;
+      btn.className = 'block w-full text-left px-4 py-2 mb-2 bg-blue-100 hover:bg-blue-200 rounded';
       btn.onclick = () => {
         if (i === q.answer) correctAnswers++;
         currentQuestionIndex++;
         showQuestion();
       };
       div.appendChild(btn);
-      div.appendChild(document.createElement('br'));
     });
 
     container.appendChild(div);
+  }
+
+  function updateProgress() {
+    const percent = ((currentQuestionIndex) / questions.length) * 100;
+    progressBar.style.width = `${percent}%`;
+    progressBar.innerText = `${Math.round(percent)}%`;
   }
 
   function startTimer() {
@@ -120,14 +137,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('quiz-container').classList.add('hidden');
     timerDisplay.classList.add('hidden');
+    progressBar.classList.add('hidden');
 
     const resultDiv = document.getElementById('result-container');
     resultDiv.classList.remove('hidden');
     resultDiv.innerHTML = `
-      <h2>Тест завершён!</h2>
-      <p>Правильных ответов: ${correctAnswers} из ${questions.length}</p>
-      <p>Время прохождения: ${duration}</p>
-      <button onclick="downloadResult()">Скачать результат</button>
+      <h2 class="text-2xl font-bold mb-2">Тест завершён!</h2>
+      <p class="mb-2">Правильных ответов: ${correctAnswers} из ${questions.length}</p>
+      <p class="mb-4">Время прохождения: ${duration}</p>
+      <button onclick="downloadResult()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Скачать результат</button>
     `;
   }
 
@@ -143,7 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
     const email = document.getElementById('email').value;
-    const testName = testListBlock.classList.contains('hidden') ? testKeyInput.value : testListSelect.options[testListSelect.selectedIndex].text;
+    const testName = testListBlock.classList.contains('hidden')
+      ? testKeyInput.value
+      : testListSelect.options[testListSelect.selectedIndex].text;
     const duration = msToHMS(endTime - startTime);
     const timestamp = new Date().toISOString();
 

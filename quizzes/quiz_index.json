@@ -3,6 +3,9 @@
     "quiz1.json",
     "instrukciya_po_zagruzke_video.json",
     "krakow_quiz.json",
-    "gdansk_wiki.json"
+    "gdansk_wiki.json",
+    "sap_order_to_cash_process.json",
+    "edi_standards_and_communication.json",
+    "sap_pi_&_cpi_integration.json"
   ]
 }

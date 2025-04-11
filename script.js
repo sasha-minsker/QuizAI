@@ -1,3 +1,5 @@
+// Обновлённый script.js с исправлением синтаксической ошибки и поддержкой PDF с логотипом
+
 document.addEventListener('DOMContentLoaded', () => {
   let questions = [];
   let currentQuestionIndex = 0;
@@ -156,12 +158,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const userAnswer = userAnswers[i];
       const correct = q.answer;
       const isCorrect = userAnswer === correct;
-const answerClass = isCorrect ? 'text-green-400' : 'text-red-400';
-detailedResult += `<li class="border-b border-white/10 pb-2">
-  <strong>Вопрос ${i + 1}:</strong> ${q.question}<br>
-  Ваш ответ: <em class="${answerClass}">${q.options[userAnswer] || 'не выбран'}</em><br>
-  Правильный ответ: <strong class="text-green-300">${q.options[correct]}</strong>
-</li>`;
+      const answerClass = isCorrect ? 'text-green-400' : 'text-red-400';
+      detailedResult += `<li class="border-b border-white/10 pb-2">
+        <strong>Вопрос ${i + 1}:</strong> ${q.question}<br>
+        Ваш ответ: <em class="${answerClass}">${q.options[userAnswer] || 'не выбран'}</em><br>
+        Правильный ответ: <strong class="text-green-300">${q.options[correct]}</strong>
+      </li>`;
     });
     detailedResult += '</ol>';
 
@@ -184,60 +186,6 @@ detailedResult += `<li class="border-b border-white/10 pb-2">
   }
 
   window.downloadResult = function () {
-    // ... существующая логика сохранения JSON
-  };
-
-  window.downloadPDF = function () {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    const logo = new Image();
-    logo.src = 'logo.png';
-
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const fullName = `${firstName} ${lastName}`;
-    const testName = testListBlock.classList.contains('hidden')
-      ? testKeyInput.value
-      : testListSelect.options[testListSelect.selectedIndex].text;
-    const duration = msToHMS(endTime - startTime);
-
-    logo.onload = function() {
-      doc.addImage(logo, 'PNG', 140, 10, 50, 15);
-      doc.setFontSize(16);
-      doc.text("Sasha Minsker Quiz", 10, 15);
-    doc.setFontSize(12);
-    doc.text(`Имя: ${fullName}`, 10, 25);
-    doc.text(`Тест: ${testName}`, 10, 32);
-    doc.text(`Время прохождения: ${duration}`, 10, 39);
-    doc.text(`Результат: ${correctAnswers} из ${questions.length}`, 10, 46);
-
-    let y = 55;
-    questions.forEach((q, i) => {
-      const userAnswer = userAnswers[i];
-      const correct = q.answer;
-      const isCorrect = userAnswer === correct;
-
-      doc.setFont(undefined, 'bold');
-      doc.text(`Вопрос ${i + 1}:`, 10, y);
-      y += 6;
-      doc.setFont(undefined, 'normal');
-      doc.text(q.question, 10, y);
-      y += 6;
-
-      doc.text(`Ваш ответ: ${q.options[userAnswer] || 'не выбран'}`, 10, y);
-      y += 6;
-      doc.text(`Правильный ответ: ${q.options[correct]}`, 10, y);
-      y += 10;
-
-      if (y > 270) {
-        doc.addPage();
-        y = 15;
-      }
-    });
-
-    doc.save(`result_${firstName}_${lastName}.pdf`);
-    };
-  };
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
     const email = document.getElementById('email').value;
@@ -270,5 +218,57 @@ detailedResult += `<li class="border-b border-white/10 pb-2">
     a.href = url;
     a.download = `result_${firstName}_${lastName}_${timestamp}.json`;
     a.click();
+  };
+
+  window.downloadPDF = function () {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const logo = new Image();
+    logo.src = 'logo.png';
+
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const fullName = `${firstName} ${lastName}`;
+    const testName = testListBlock.classList.contains('hidden')
+      ? testKeyInput.value
+      : testListSelect.options[testListSelect.selectedIndex].text;
+    const duration = msToHMS(endTime - startTime);
+
+    logo.onload = function () {
+      doc.addImage(logo, 'PNG', 140, 10, 50, 15);
+      doc.setFontSize(16);
+      doc.text("Sasha Minsker Quiz", 10, 15);
+      doc.setFontSize(12);
+      doc.text(`Имя: ${fullName}`, 10, 25);
+      doc.text(`Тест: ${testName}`, 10, 32);
+      doc.text(`Время прохождения: ${duration}`, 10, 39);
+      doc.text(`Результат: ${correctAnswers} из ${questions.length}`, 10, 46);
+
+      let y = 55;
+      questions.forEach((q, i) => {
+        const userAnswer = userAnswers[i];
+        const correct = q.answer;
+        const isCorrect = userAnswer === correct;
+
+        doc.setFont(undefined, 'bold');
+        doc.text(`Вопрос ${i + 1}:`, 10, y);
+        y += 6;
+        doc.setFont(undefined, 'normal');
+        doc.text(q.question, 10, y);
+        y += 6;
+
+        doc.text(`Ваш ответ: ${q.options[userAnswer] || 'не выбран'}`, 10, y);
+        y += 6;
+        doc.text(`Правильный ответ: ${q.options[correct]}`, 10, y);
+        y += 10;
+
+        if (y > 270) {
+          doc.addPage();
+          y = 15;
+        }
+      });
+
+      doc.save(`result_${firstName}_${lastName}.pdf`);
+    };
   };
 });

@@ -1,0 +1,153 @@
+[
+  "SAP PI & CPI Integration",
+  {
+    "question": "Что такое SAP PI?",
+    "options": [
+      "Платформа мониторинга",
+      "Платформа интеграции между системами",
+      "Система учёта времени",
+      "Финансовый модуль SAP"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "Какой компонент используется в SAP PI для проектирования интерфейсов?",
+    "options": [
+      "Integration Flow Designer",
+      "SLD",
+      "Integration Builder",
+      "Adapter Engine"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "Что такое SLD в SAP PI?",
+    "options": [
+      "System Load Distribution",
+      "System Landscape Directory",
+      "Software Link Design",
+      "Shared Log Directory"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "Какой компонент SAP PI отвечает за адаптацию сообщений?",
+    "options": [
+      "Integration Builder",
+      "Runtime Workbench",
+      "Adapter Engine",
+      "CPI"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "Для чего используется Runtime Workbench?",
+    "options": [
+      "Проектирование интерфейсов",
+      "Мониторинг сообщений",
+      "Управление правами",
+      "Работа с IDoc"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "Что такое SAP CPI?",
+    "options": [
+      "Система управления контентом",
+      "Модуль обучения пользователей",
+      "Облачная интеграционная платформа SAP",
+      "Форма расчета налогов"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "Какой компонент используется в CPI для создания потоков интеграции?",
+    "options": [
+      "SLD",
+      "Runtime Workbench",
+      "iFlows",
+      "ALE"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "Что такое iFlows?",
+    "options": [
+      "Финансовый инструмент",
+      "Формат документов",
+      "Графический редактор интеграций",
+      "Тип IDoc"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "Как называется хаб с готовыми решениями SAP API?",
+    "options": [
+      "SAP BTP",
+      "SAP CPI",
+      "SAP API Business Hub",
+      "SAP Cloud SDK"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "Какой адаптер НЕ поддерживается CPI?",
+    "options": [
+      "REST",
+      "IDoc",
+      "OData",
+      "Excel"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "Что такое SAP BTP?",
+    "options": [
+      "Система управления клиентами",
+      "Платформа для развертывания и управления интеграцией в облаке",
+      "Тип транзакции",
+      "Финансовый отчёт"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "Что позволяет SAP CPI в части мониторинга?",
+    "options": [
+      "Ручная выгрузка отчётов",
+      "Запись видео",
+      "Реальное логирование сообщений",
+      "Проверка UI"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "Какой компонент CPI отвечает за масштабируемость?",
+    "options": [
+      "SLD",
+      "Monitoring",
+      "Multi-tenant runtime",
+      "FTP Server"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "Что такое REST в CPI?",
+    "options": [
+      "Формат XML-документа",
+      "Протокол, часто используемый для интеграции",
+      "Система хранения данных",
+      "Служба печати"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "Какой инструмент SAP используется для проектирования CPI интеграций?",
+    "options": [
+      "Integration Builder",
+      "iFlows",
+      "RFC Manager",
+      "Transaction SE11"
+    ],
+    "answer": 1
+  }
+]

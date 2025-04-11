@@ -169,7 +169,8 @@ detailedResult += `<li class="border-b border-white/10 pb-2">
       <h2 class="text-2xl font-bold mb-2 text-white">Тест завершён!</h2>
       <p class="mb-2 text-white">Правильных ответов: ${correctAnswers} из ${questions.length}</p>
       <p class="mb-4 text-white">Время прохождения: ${duration}</p>
-      <button onclick="downloadResult()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mb-4">Скачать результат</button>
+      <button onclick="downloadResult()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mb-2">Скачать результат</button>
+      <button onclick="downloadPDF()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mb-4 ml-2">Скачать PDF</button>
       ${detailedResult}
     `;
   }
@@ -183,6 +184,60 @@ detailedResult += `<li class="border-b border-white/10 pb-2">
   }
 
   window.downloadResult = function () {
+    // ... существующая логика сохранения JSON
+  };
+
+  window.downloadPDF = function () {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const logo = new Image();
+    logo.src = 'logo.png';
+
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const fullName = `${firstName} ${lastName}`;
+    const testName = testListBlock.classList.contains('hidden')
+      ? testKeyInput.value
+      : testListSelect.options[testListSelect.selectedIndex].text;
+    const duration = msToHMS(endTime - startTime);
+
+    logo.onload = function() {
+      doc.addImage(logo, 'PNG', 140, 10, 50, 15);
+      doc.setFontSize(16);
+      doc.text("Sasha Minsker Quiz", 10, 15);
+    doc.setFontSize(12);
+    doc.text(`Имя: ${fullName}`, 10, 25);
+    doc.text(`Тест: ${testName}`, 10, 32);
+    doc.text(`Время прохождения: ${duration}`, 10, 39);
+    doc.text(`Результат: ${correctAnswers} из ${questions.length}`, 10, 46);
+
+    let y = 55;
+    questions.forEach((q, i) => {
+      const userAnswer = userAnswers[i];
+      const correct = q.answer;
+      const isCorrect = userAnswer === correct;
+
+      doc.setFont(undefined, 'bold');
+      doc.text(`Вопрос ${i + 1}:`, 10, y);
+      y += 6;
+      doc.setFont(undefined, 'normal');
+      doc.text(q.question, 10, y);
+      y += 6;
+
+      doc.text(`Ваш ответ: ${q.options[userAnswer] || 'не выбран'}`, 10, y);
+      y += 6;
+      doc.text(`Правильный ответ: ${q.options[correct]}`, 10, y);
+      y += 10;
+
+      if (y > 270) {
+        doc.addPage();
+        y = 15;
+      }
+    });
+
+    doc.save(`result_${firstName}_${lastName}.pdf`);
+    };
+  };
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
     const email = document.getElementById('email').value;

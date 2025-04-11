@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let correctAnswers = 0;
   let startTime, endTime;
   let timerInterval;
+  let userAnswers = [];
 
   const startBtn = document.getElementById('startBtn');
   const testKeyInput = document.getElementById('testKey');
@@ -66,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
       startTime = new Date();
       currentQuestionIndex = 0;
       correctAnswers = 0;
+      userAnswers = [];
 
       document.getElementById('start-form').classList.add('hidden');
       document.getElementById('quiz-container').classList.remove('hidden');
@@ -105,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.textContent = opt;
       btn.className = 'btn-answer';
       btn.onclick = () => {
+        userAnswers.push(i);
         if (i === q.answer) correctAnswers++;
         currentQuestionIndex++;
         showQuestion();
@@ -147,11 +150,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const resultDiv = document.getElementById('result-container');
     resultDiv.classList.remove('hidden');
+
+    let detailedResult = '<ol class="text-white text-sm sm:text-base mt-4 space-y-2">';
+    questions.forEach((q, i) => {
+      const userAnswer = userAnswers[i];
+      const correct = q.answer;
+      const isCorrect = userAnswer === correct;
+const answerClass = isCorrect ? 'text-green-400' : 'text-red-400';
+detailedResult += `<li class="border-b border-white/10 pb-2">
+  <strong>Вопрос ${i + 1}:</strong> ${q.question}<br>
+  Ваш ответ: <em class="${answerClass}">${q.options[userAnswer] || 'не выбран'}</em><br>
+  Правильный ответ: <strong class="text-green-300">${q.options[correct]}</strong>
+</li>`;
+    });
+    detailedResult += '</ol>';
+
     resultDiv.innerHTML = `
       <h2 class="text-2xl font-bold mb-2 text-white">Тест завершён!</h2>
       <p class="mb-2 text-white">Правильных ответов: ${correctAnswers} из ${questions.length}</p>
       <p class="mb-4 text-white">Время прохождения: ${duration}</p>
-      <button onclick="downloadResult()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Скачать результат</button>
+      <button onclick="downloadResult()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mb-4">Скачать результат</button>
+      ${detailedResult}
     `;
   }
 
@@ -182,7 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
       startTime: startTime.toISOString(),
       endTime: endTime.toISOString(),
       duration,
-      createdAt: timestamp
+      createdAt: timestamp,
+      answers: questions.map((q, i) => ({
+        question: q.question,
+        selected: q.options[userAnswers[i]] || null,
+        correct: q.options[q.answer]
+      }))
     };
 
     const blob = new Blob([JSON.stringify(result, null, 2)], { type: 'application/json' });
